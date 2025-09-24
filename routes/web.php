@@ -34,3 +34,9 @@ Route::get('/forgot-password', function () {
 Route::get('/reset-password', function () {
     return view('auth.reset-password');
 })->name('password.reset');
+
+// Logout route
+Route::post('/logout', function () {
+    // Clear the auth token from localStorage via JavaScript
+    return redirect('/login')->with('status', 'You have been logged out successfully.');
+})->name('logout');

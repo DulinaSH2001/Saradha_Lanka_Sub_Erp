@@ -1,196 +1,225 @@
-<!doctype html>
-<html lang="en">
+@extends('layouts.auth')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    @include('partials.glass-theme')
-    <style>
-        :root {
-            --bg-start: #0b0b0c;
-            --bg-end: #111219;
-            --glass-bg: rgba(255, 255, 255, 0.06);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
-            --text: #e6e6e6;
-            --muted: #9aa0a6;
-            --highlight: #00e0ff;
-            /* cyan highlight */
-            --danger: #ff3b3b;
-        }
+@section('title', 'Sign In - Saradha Lanka ERP')
 
-        body {
-            background: radial-gradient(1200px 800px at 10% 10%, #1a1b26 0%, transparent 60%),
-                radial-gradient(1000px 700px at 90% 20%, #111827 0%, transparent 55%),
-                linear-gradient(160deg, var(--bg-start), var(--bg-end));
-            color: var(--text);
-            min-height: 100vh;
-        }
+@section('content')
+    <div class="space-y-8">
+        <!-- Header -->
+        <div class="text-center">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                Welcome Back
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400 text-lg">
+                Sign in to your account to continue
+            </p>
+        </div>
 
-        .glass-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 14px;
-        }
-
-        .form-control {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: var(--text);
-        }
-
-        .form-control:focus {
-            border-color: var(--highlight);
-            box-shadow: 0 0 0 0.2rem rgba(0, 224, 255, 0.15);
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--text);
-        }
-
-        .btn-primary {
-            background: linear-gradient(180deg, #14151d, #0e0f14);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: #fff;
-            position: relative;
-        }
-
-        .btn-primary:hover {
-            filter: brightness(1.08);
-            border-color: var(--highlight);
-            box-shadow: 0 0 12px rgba(0, 224, 255, 0.35);
-        }
-
-        .btn-outline-danger {
-            border: 1px solid rgba(255, 255, 255, 0.18) !important;
-            color: #fff !important;
-            background: linear-gradient(180deg, rgba(255, 59, 59, 0.18), rgba(255, 59, 59, 0.12));
-        }
-
-        .btn-outline-danger:hover {
-            box-shadow: 0 0 12px rgba(255, 59, 59, 0.45);
-            border-color: rgba(255, 59, 59, 0.6) !important;
-        }
-
-        .text-muted {
-            color: var(--muted) !important;
-        }
-
-        a {
-            color: var(--highlight);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .card-body h1 {
-            color: #fff;
-        }
-    </style>
-</head>
-
-<body class="glass-bg">
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-5">
-                <div class="card shadow-sm glass-card">
-                    <div class="card-body p-4">
-                        <h1 class="h4 mb-4 text-center">Sign in</h1>
-
-                        <div id="alert" class="alert d-none" role="alert"></div>
-
-                        <a href="/auth/google/redirect" class="btn btn-glass btn-glass-danger w-100 mb-3">
-                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt=""
-                                width="18" class="me-2"> Sign in with Google
-                        </a>
-
-                        <div class="text-center text-muted mb-2">or</div>
-
-                        <form id="loginForm">
-                            <div class="mb-3">
-                                <label for="email" class="form-label" style="color: var(--text)">Email address</label>
-                                <input type="email" class="form-control input-glass" id="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label" style="color: var(--text)">Password</label>
-                                <input type="password" class="form-control input-glass" id="password" required
-                                    minlength="8">
-                            </div>
-                            <button type="submit" id="submitBtn"
-                                class="btn btn-glass btn-glass-primary w-100">Login</button>
-                        </form>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <a href="/forgot-password" class="small">Forgot password?</a>
-                            <a href="/register" class="small">Create account</a>
-                        </div>
-                    </div>
+        <!-- Alert Messages -->
+        <div id="alert" class="hidden rounded-lg p-4 mb-6" role="alert">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <svg id="alert-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"></svg>
+                </div>
+                <div class="ml-3">
+                    <p id="alert-message" class="text-sm font-medium"></p>
                 </div>
             </div>
         </div>
+
+        <!-- Google Sign In -->
+        <div class="space-y-4">
+            <a href="/auth/google/redirect"
+                class="w-full flex justify-center items-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200 group">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+                    class="w-5 h-5 mr-3">
+                <span class="font-medium">Continue with Google</span>
+            </a>
+
+            <!-- Divider -->
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-4 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">or continue with
+                        email</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="space-y-6">
+            <div class="space-y-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email
+                        Address</label>
+                    <input type="email" id="email"
+                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-colors duration-200"
+                        placeholder="Enter your email" required>
+                </div>
+
+                <div>
+                    <label for="password"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
+                    <input type="password" id="password"
+                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-colors duration-200"
+                        placeholder="Enter your password" required minlength="8">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input type="checkbox" id="remember"
+                        class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500 dark:bg-gray-800 dark:border-gray-600">
+                    <label for="remember" class="ml-2 text-sm text-gray-600 dark:text-gray-400">Remember me</label>
+                </div>
+                <a href="/forgot-password"
+                    class="text-sm text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 font-medium transition-colors duration-200">
+                    Forgot password?
+                </a>
+            </div>
+
+            <button type="submit" id="submitBtn"
+                class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 flex justify-center items-center">
+                <span id="submitText">Sign In</span>
+                <svg id="loadingSpinner" class="hidden animate-spin ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+            </button>
+        </form>
+
+        <!-- Sign Up Link -->
+        <div class="text-center pt-6 border-t border-gray-200 dark:border-gray-700">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                Don't have an account?
+                <a href="/register"
+                    class="font-medium text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 transition-colors duration-200">
+                    Create one now
+                </a>
+            </p>
+        </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        (function () {
-            const apiBase = '/api';
-            const loginEndpoint = apiBase + '/login';
-            const dashboardUrl = '/dashboard';
+    @push('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script>
+            (function () {
+                const apiBase = '/api';
+                const loginEndpoint = apiBase + '/login';
+                const dashboardUrl = '/dashboard';
 
-            function setLoading(loading) {
-                $('#submitBtn').prop('disabled', loading).text(loading ? 'Logging in…' : 'Login');
-            }
+                function setLoading(loading) {
+                    const submitBtn = document.getElementById('submitBtn');
+                    const submitText = document.getElementById('submitText');
+                    const loadingSpinner = document.getElementById('loadingSpinner');
 
-            function showAlert(type, message) {
-                const $alert = $('#alert');
-                $alert.removeClass('d-none alert-success alert-danger').addClass('alert-' + type).text(message);
-            }
+                    submitBtn.disabled = loading;
 
-            $('#loginForm').on('submit', function (e) {
-                e.preventDefault();
-                const email = $('#email').val();
-                const password = $('#password').val();
-                setLoading(true);
-                showAlert('success', '');
-                $('#alert').addClass('d-none');
+                    if (loading) {
+                        submitText.textContent = 'Signing In...';
+                        loadingSpinner.classList.remove('hidden');
+                        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                    } else {
+                        submitText.textContent = 'Sign In';
+                        loadingSpinner.classList.add('hidden');
+                        submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                    }
+                }
 
-                $.ajax({
-                    url: loginEndpoint,
-                    method: 'POST',
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    data: JSON.stringify({ email, password }),
-                    success: function (res) {
-                        if (res && res.token) {
-                            localStorage.setItem('auth_token', res.token);
-                            // Optionally store user
-                            try { localStorage.setItem('auth_user', JSON.stringify(res.user || {})); } catch (e) { }
-                            window.location.href = dashboardUrl;
-                        } else {
-                            showAlert('danger', 'Unexpected response from server.');
-                        }
-                    },
-                    error: function (xhr) {
-                        let message = 'Login failed.';
-                        if (xhr && xhr.responseJSON) {
-                            if (xhr.responseJSON.message) message = xhr.responseJSON.message;
-                            if (xhr.responseJSON.errors) {
-                                const firstKey = Object.keys(xhr.responseJSON.errors)[0];
-                                if (firstKey) message = xhr.responseJSON.errors[firstKey][0];
+                function showAlert(type, message) {
+                    const alert = document.getElementById('alert');
+                    const alertIcon = document.getElementById('alert-icon');
+                    const alertMessage = document.getElementById('alert-message');
+
+                    // Reset classes
+                    alert.className = 'hidden rounded-lg p-4 mb-6';
+
+                    if (type === 'success') {
+                        alert.classList.add('bg-green-50', 'border', 'border-green-200', 'dark:bg-green-900/20', 'dark:border-green-800');
+                        alertMessage.className = 'text-sm font-medium text-green-800 dark:text-green-200';
+                        alertIcon.className = 'w-5 h-5 text-green-400';
+                        alertIcon.innerHTML = '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>';
+                    } else {
+                        alert.classList.add('bg-red-50', 'border', 'border-red-200', 'dark:bg-red-900/20', 'dark:border-red-800');
+                        alertMessage.className = 'text-sm font-medium text-red-800 dark:text-red-200';
+                        alertIcon.className = 'w-5 h-5 text-red-400';
+                        alertIcon.innerHTML = '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>';
+                    }
+
+                    alertMessage.textContent = message;
+                    alert.classList.remove('hidden');
+
+                    // Auto hide success messages
+                    if (type === 'success') {
+                        setTimeout(() => {
+                            alert.classList.add('hidden');
+                        }, 5000);
+                    }
+                }
+
+                function hideAlert() {
+                    const alert = document.getElementById('alert');
+                    alert.classList.add('hidden');
+                }
+
+                document.getElementById('loginForm').addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+
+                    setLoading(true);
+                    hideAlert();
+
+                    $.ajax({
+                        url: loginEndpoint,
+                        method: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        data: JSON.stringify({ email, password }),
+                        success: function (res) {
+                            if (res && res.token) {
+                                localStorage.setItem('auth_token', res.token);
+                                try {
+                                    localStorage.setItem('auth_user', JSON.stringify(res.user || {}));
+                                } catch (e) {
+                                    console.log('Failed to store user data');
+                                }
+
+                                showAlert('success', 'Login successful! Redirecting...');
+
+                                setTimeout(() => {
+                                    window.location.href = dashboardUrl;
+                                }, 1500);
+                            } else {
+                                showAlert('error', 'Unexpected response from server.');
                             }
-                        }
-                        showAlert('danger', message);
-                    },
-                    complete: function () { setLoading(false); }
-                });
-            });
-        })();
-    </script>
-</body>
+                        },
+                        error: function (xhr) {
+                            let message = 'Login failed. Please try again.';
 
-</html>
+                            if (xhr && xhr.responseJSON) {
+                                if (xhr.responseJSON.message) {
+                                    message = xhr.responseJSON.message;
+                                } else if (xhr.responseJSON.errors) {
+                                    const firstKey = Object.keys(xhr.responseJSON.errors)[0];
+                                    if (firstKey) {
+                                        message = xhr.responseJSON.errors[firstKey][0];
+                                    }
+                                }
+                            }
+
+                            showAlert('error', message);
+                        },
+                        complete: function () {
+                            setLoading(false);
+                        }
+                    });
+                });
+            })();
+        </script>
+    @endpush
+@endsection
