@@ -20,8 +20,19 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'phone',
+        'avatar',
+        'position',
+        'department',
+        'date_of_birth',
+        'employee_id',
+        'last_login_at',
+        'last_login_ip',
+        'is_active',
     ];
 
     /**
@@ -44,6 +55,47 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'date_of_birth' => 'date',
+            'last_login_at' => 'datetime',
+            'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * Get the user's settings.
+     */
+    public function settings()
+    {
+        return $this->hasOne(UserSettings::class);
+    }
+
+    /**
+     * Get the user's full name.
+     */
+    public function getFullNameAttribute()
+    {
+        return trim($this->first_name . ' ' . $this->last_name) ?: $this->name;
+    }
+
+    /**
+     * Get the user's initials.
+     */
+    public function getInitialsAttribute()
+    {
+        $name = $this->full_name;
+        $words = explode(' ', $name);
+        $initials = '';
+        foreach ($words as $word) {
+            $initials .= substr($word, 0, 1);
+        }
+        return strtoupper(substr($initials, 0, 2));
+    }
+
+    /**
+     * Get the user's avatar URL or initials.
+     */
+    public function getAvatarUrlAttribute()
+    {
+        return $this->avatar ? asset('storage/' . $this->avatar) : null;
     }
 }

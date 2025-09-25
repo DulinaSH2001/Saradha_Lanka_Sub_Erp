@@ -26,14 +26,11 @@
 
     <script>
         (function () {
-            const params = new URLSearchParams(window.location.search);
-            const token = params.get('token');
-            if (token) {
-                localStorage.setItem('auth_token', token);
-                window.location.replace('/dashboard');
-            } else {
-                window.location.replace('/login');
-            }
+            // Clear any old tokens from localStorage since we're using session auth
+            localStorage.removeItem('auth_token');
+
+            // Redirect to dashboard (authentication is handled by the controller)
+            window.location.replace('/dashboard');
         })();
     </script>
 </body>

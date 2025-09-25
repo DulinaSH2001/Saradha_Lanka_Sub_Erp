@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -9,22 +11,58 @@ Route::get('/', function () {
 
 Route::get('/login', function () {
     return view('auth.login');
-})->name('login');
+})->name('login')->middleware('guest');
+
+Route::post('/login', [ProfileController::class, 'authenticate'])->name('login.post')->middleware('guest');
 
 Route::get('/register', function () {
+    // Redirect authenticated users to dashboard
+    if (Auth::check()) {
+        return redirect()->route('dashboard');
+    }
     return view('auth.register');
 })->name('register');
 
+Route::post('/register', [ProfileController::class, 'register'])->name('register.post')->middleware('guest');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->name('dashboard');
+})->name('dashboard')->middleware('auth');
+
+// Masters Routes
+Route::prefix('masters')->group(function () {
+    Route::get('/customers', function () {
+        return view('masters.customers');
+    })->name('masters.customers');
+
+    Route::get('/sites', function () {
+        return view('masters.sites');
+    })->name('masters.sites');
+
+    Route::get('/items', function () {
+        return view('masters.items');
+    })->name('masters.items');
+
+    Route::get('/suppliers', function () {
+        return view('masters.suppliers');
+    })->name('masters.suppliers');
+});
+
+// Profile & Settings Routes
+Route::middleware('auth')->prefix('profile')->group(function () {
+    Route::get('/', [ProfileController::class, 'show'])->name('profile.show');
+    Route::put('/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+
+    Route::get('/settings', [ProfileController::class, 'settings'])->name('profile.settings');
+    Route::put('/settings', [ProfileController::class, 'updateSettings'])->name('profile.settings.update');
+
+    Route::post('/theme', [ProfileController::class, 'updateTheme'])->name('profile.theme.update');
+});
 
 // Google OAuth
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('google.callback');
-Route::get('/auth/google/callback/consume', function () {
-    return view('auth.oauth-callback');
-});
 
 // Password reset pages
 Route::get('/forgot-password', function () {
@@ -36,7 +74,4 @@ Route::get('/reset-password', function () {
 })->name('password.reset');
 
 // Logout route
-Route::post('/logout', function () {
-    // Clear the auth token from localStorage via JavaScript
-    return redirect('/login')->with('status', 'You have been logged out successfully.');
-})->name('logout');
+Route::post('/logout', [ProfileController::class, 'logout'])->name('logout');

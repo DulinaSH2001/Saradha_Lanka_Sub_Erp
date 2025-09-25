@@ -28,7 +28,7 @@
 
         <!-- Google Sign In -->
         <div class="space-y-4">
-            <a href="/auth/google/redirect"
+            <a href="{{ route('google.redirect') }}"
                 class="w-full flex justify-center items-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200 group">
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
                     class="w-5 h-5 mr-3">
@@ -104,12 +104,16 @@
     </div>
 
     @push('scripts')
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script>
-            (function () {
-                const apiBase = '/api';
-                const loginEndpoint = apiBase + '/login';
-                const dashboardUrl = '/dashboard';
+            $(document).ready(function () {
+                // Setup CSRF token for AJAX requests
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
 
                 function setLoading(loading) {
                     const submitBtn = document.getElementById('submitBtn');
@@ -165,43 +169,38 @@
                     alert.classList.add('hidden');
                 }
 
-                document.getElementById('loginForm').addEventListener('submit', function (e) {
+                $('#loginForm').on('submit', function (e) {
                     e.preventDefault();
 
-                    const email = document.getElementById('email').value;
-                    const password = document.getElementById('password').value;
+                    const email = $('#email').val();
+                    const password = $('#password').val();
+                    const remember = $('#remember').is(':checked');
 
                     setLoading(true);
                     hideAlert();
 
                     $.ajax({
-                        url: loginEndpoint,
+                        url: '{{ route("login.post") }}',
                         method: 'POST',
-                        contentType: 'application/json; charset=utf-8',
-                        dataType: 'json',
-                        data: JSON.stringify({ email, password }),
-                        success: function (res) {
-                            if (res && res.token) {
-                                localStorage.setItem('auth_token', res.token);
-                                try {
-                                    localStorage.setItem('auth_user', JSON.stringify(res.user || {}));
-                                } catch (e) {
-                                    console.log('Failed to store user data');
-                                }
-
-                                showAlert('success', 'Login successful! Redirecting...');
-
+                        data: {
+                            email: email,
+                            password: password,
+                            remember: remember
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                showAlert('success', response.message || 'Login successful! Redirecting...');
                                 setTimeout(() => {
-                                    window.location.href = dashboardUrl;
+                                    window.location.href = response.redirect || '{{ route("dashboard") }}';
                                 }, 1500);
                             } else {
-                                showAlert('error', 'Unexpected response from server.');
+                                showAlert('error', response.message || 'Login failed. Please try again.');
                             }
                         },
                         error: function (xhr) {
                             let message = 'Login failed. Please try again.';
 
-                            if (xhr && xhr.responseJSON) {
+                            if (xhr.responseJSON) {
                                 if (xhr.responseJSON.message) {
                                     message = xhr.responseJSON.message;
                                 } else if (xhr.responseJSON.errors) {
@@ -219,7 +218,7 @@
                         }
                     });
                 });
-            })();
+            });
         </script>
     @endpush
 @endsection

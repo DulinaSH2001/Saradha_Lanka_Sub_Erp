@@ -248,27 +248,11 @@
     @push('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script>
-            // Keep the existing authentication logic for now
-            (function () {
-                const token = localStorage.getItem('auth_token');
-                if (!token) {
-                    window.location.href = '/login';
-                    return;
-                }
+            // Clean up any old tokens from localStorage since we're using session auth
+            localStorage.removeItem('auth_token');
 
-                // You can display user info in a more elegant way now
-                $.ajax({
-                    url: '/api/me',
-                    headers: { 'Authorization': 'Bearer ' + token },
-                    success: function (res) {
-                        // Update user display in header or show welcome message
-                        console.log('User data:', res);
-                    },
-                    error: function () {
-                        console.log('Failed to load user data');
-                    }
-                });
-            })();
+            // Authentication is now handled by Laravel middleware
+            console.log('Dashboard loaded for authenticated user');
         </script>
     @endpush
 @endsection
