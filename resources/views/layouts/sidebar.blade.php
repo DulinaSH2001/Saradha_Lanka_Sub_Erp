@@ -71,7 +71,7 @@
                     x-transition:leave="transition ease-in duration-150"
                     x-transition:leave-start="opacity-100 transform translate-y-0"
                     x-transition:leave-end="opacity-0 transform -translate-y-2" class="mt-2 ml-8 space-y-1">
-                    <a href="/masters/customers"
+                    <a href="{{ route('customers.index') }}"
                         class="flex items-center px-4 py-2 text-sm rounded-lg transition-all duration-200 {{ request()->is('masters/customers*') ? 'bg-green-100 text-green-700 border-r-2 border-green-500 shadow-sm' : 'text-gray-600 hover:bg-green-50 hover:text-green-600 hover:translate-x-1' }}">
                         <i
                             class="fas fa-users w-4 h-4 mr-2 {{ request()->is('masters/customers*') ? 'text-green-600' : 'text-gray-400' }}"></i>

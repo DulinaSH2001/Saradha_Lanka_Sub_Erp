@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CustomerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,9 +32,8 @@ Route::get('/dashboard', function () {
 
 // Masters Routes
 Route::prefix('masters')->middleware('auth')->group(function () {
-    Route::get('/customers', function () {
-        return view('masters.customers');
-    })->name('masters.customers');
+    // Customer CRUD Routes
+    Route::resource('customers', CustomerController::class);
 
     // Sites CRUD Routes
     Route::resource('sites', App\Http\Controllers\SiteController::class);
