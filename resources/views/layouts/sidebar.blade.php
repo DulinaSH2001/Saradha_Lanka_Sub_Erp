@@ -77,7 +77,7 @@
                             class="fas fa-users w-4 h-4 mr-2 {{ request()->is('masters/customers*') ? 'text-green-600' : 'text-gray-400' }}"></i>
                         Customers
                     </a>
-                    <a href="/masters/sites"
+                    <a href="{{ route('sites.index') }}"
                         class="flex items-center px-4 py-2 text-sm rounded-lg transition-all duration-200 {{ request()->is('masters/sites*') ? 'bg-green-100 text-green-700 border-r-2 border-green-500 shadow-sm' : 'text-gray-600 hover:bg-green-50 hover:text-green-600 hover:translate-x-1' }}">
                         <i
                             class="fas fa-map-marker-alt w-4 h-4 mr-2 {{ request()->is('masters/sites*') ? 'text-green-600' : 'text-gray-400' }}"></i>

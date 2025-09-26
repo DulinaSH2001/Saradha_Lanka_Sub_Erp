@@ -55,8 +55,8 @@
                 window.itemsPerPage = userSettings.items_per_page || 25;
             }
         @else
-                    // Check for saved theme preference or default to 'light'
-                    const savedTheme = localStorage.getItem('theme') || 'light';
+                        // Check for saved theme preference or default to 'light'
+                        const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
         @endif
 

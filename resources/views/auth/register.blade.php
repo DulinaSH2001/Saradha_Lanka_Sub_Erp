@@ -6,10 +6,10 @@
     <div class="space-y-8">
         <!-- Header -->
         <div class="text-center">
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">
                 Create Your Account
             </h2>
-            <p class="text-gray-600 dark:text-gray-400 text-lg">
+            <p class="text-gray-600 text-lg">
                 Join Saradha Lanka ERP System today
             </p>
         </div>
@@ -29,7 +29,7 @@
         <!-- Google Sign Up -->
         <div class="space-y-4">
             <a href="/auth/google/redirect"
-                class="w-full flex justify-center items-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200 group">
+                class="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 transition-colors duration-200 group">
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
                     class="w-5 h-5 mr-3">
                 <span class="font-medium">Sign up with Google</span>
@@ -38,10 +38,10 @@
             <!-- Divider -->
             <div class="relative my-6">
                 <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                    <div class="w-full border-t border-gray-300"></div>
                 </div>
                 <div class="relative flex justify-center text-sm">
-                    <span class="px-4 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400">or create account with
+                    <span class="px-4 bg-white text-gray-500">or create account with
                         email</span>
                 </div>
             </div>
@@ -51,35 +51,34 @@
         <form id="registerForm" class="space-y-6">
             <div class="space-y-4">
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full
                         Name</label>
                     <input type="text" id="name"
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-colors duration-200"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white text-black transition-colors duration-200"
                         placeholder="Enter your full name" required>
                 </div>
 
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email
                         Address</label>
                     <input type="email" id="email"
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-colors duration-200"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white text-black transition-colors duration-200"
                         placeholder="Enter your email" required>
                 </div>
 
                 <div>
-                    <label for="password"
-                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password</label>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
                     <input type="password" id="password"
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-colors duration-200"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white text-black transition-colors duration-200"
                         placeholder="Create a strong password" required minlength="8">
-                    <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Password must be at least 8 characters long</p>
+                    <p class="mt-2 text-xs text-gray-500">Password must be at least 8 characters long</p>
                 </div>
 
                 <div>
-                    <label for="password_confirmation"
-                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Confirm Password</label>
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">Confirm
+                        Password</label>
                     <input type="password" id="password_confirmation"
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-colors duration-200"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white text-black transition-colors duration-200"
                         placeholder="Confirm your password" required>
                 </div>
             </div>
@@ -87,23 +86,22 @@
             <div class="flex items-start space-x-3">
                 <div class="flex items-center h-5 mt-0.5">
                     <input type="checkbox" id="terms"
-                        class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500 dark:bg-gray-800 dark:border-gray-600"
-                        required>
+                        class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500 bg-white" required>
                 </div>
-                <label for="terms" class="text-sm text-gray-600 dark:text-gray-400">
+                <label for="terms" class="text-sm text-gray-600">
                     I agree to the
                     <a href="/terms"
-                        class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 font-medium transition-colors duration-200">Terms
+                        class="text-green-600 hover:text-green-800 font-medium transition-colors duration-200">Terms
                         of Service</a>
                     and
                     <a href="/privacy"
-                        class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 font-medium transition-colors duration-200">Privacy
+                        class="text-green-600 hover:text-green-800 font-medium transition-colors duration-200">Privacy
                         Policy</a>
                 </label>
             </div>
 
             <button type="submit" id="submitBtn"
-                class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 flex justify-center items-center">
+                class="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 flex justify-center items-center">
                 <span id="submitText">Create Account</span>
                 <svg id="loadingSpinner" class="hidden animate-spin ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -115,11 +113,10 @@
         </form>
 
         <!-- Sign In Link -->
-        <div class="text-center pt-6 border-t border-gray-200 dark:border-gray-700">
-            <p class="text-sm text-gray-600 dark:text-gray-400">
+        <div class="text-center pt-6 border-t border-gray-200">
+            <p class="text-sm text-gray-600">
                 Already have an account?
-                <a href="/login"
-                    class="font-medium text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 transition-colors duration-200">
+                <a href="/login" class="font-medium text-green-600 hover:text-green-800 transition-colors duration-200">
                     Sign in here
                 </a>
             </p>
@@ -161,13 +158,13 @@
                     alert.className = 'hidden rounded-lg p-4 mb-6';
 
                     if (type === 'success') {
-                        alert.classList.add('bg-green-50', 'border', 'border-green-200', 'dark:bg-green-900/20', 'dark:border-green-800');
-                        alertMessage.className = 'text-sm font-medium text-green-800 dark:text-green-200';
+                        alert.classList.add('bg-green-50', 'border', 'border-green-200');
+                        alertMessage.className = 'text-sm font-medium text-green-800';
                         alertIcon.className = 'w-5 h-5 text-green-400';
                         alertIcon.innerHTML = '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>';
                     } else {
-                        alert.classList.add('bg-red-50', 'border', 'border-red-200', 'dark:bg-red-900/20', 'dark:border-red-800');
-                        alertMessage.className = 'text-sm font-medium text-red-800 dark:text-red-200';
+                        alert.classList.add('bg-red-50', 'border', 'border-red-200');
+                        alertMessage.className = 'text-sm font-medium text-red-800';
                         alertIcon.className = 'w-5 h-5 text-red-400';
                         alertIcon.innerHTML = '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>';
                     }
@@ -286,11 +283,11 @@
                     const confirmation = this.value;
 
                     if (confirmation && password !== confirmation) {
-                        this.classList.add('border-red-300', 'dark:border-red-500');
-                        this.classList.remove('border-gray-300', 'dark:border-gray-600');
+                        this.classList.add('border-red-300');
+                        this.classList.remove('border-gray-300');
                     } else {
-                        this.classList.remove('border-red-300', 'dark:border-red-500');
-                        this.classList.add('border-gray-300', 'dark:border-gray-600');
+                        this.classList.remove('border-red-300');
+                        this.classList.add('border-gray-300');
                     }
                 });
 
@@ -300,11 +297,11 @@
                     const confirmation = document.getElementById('password_confirmation').value;
 
                     if (confirmation && password !== confirmation) {
-                        document.getElementById('password_confirmation').classList.add('border-red-300', 'dark:border-red-500');
-                        document.getElementById('password_confirmation').classList.remove('border-gray-300', 'dark:border-gray-600');
+                        document.getElementById('password_confirmation').classList.add('border-red-300');
+                        document.getElementById('password_confirmation').classList.remove('border-gray-300');
                     } else if (confirmation) {
-                        document.getElementById('password_confirmation').classList.remove('border-red-300', 'dark:border-red-500');
-                        document.getElementById('password_confirmation').classList.add('border-gray-300', 'dark:border-gray-600');
+                        document.getElementById('password_confirmation').classList.remove('border-red-300');
+                        document.getElementById('password_confirmation').classList.add('border-gray-300');
                     }
                 });
             })();

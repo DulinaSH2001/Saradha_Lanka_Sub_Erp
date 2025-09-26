@@ -30,14 +30,14 @@ Route::get('/dashboard', function () {
 })->name('dashboard')->middleware('auth');
 
 // Masters Routes
-Route::prefix('masters')->group(function () {
+Route::prefix('masters')->middleware('auth')->group(function () {
     Route::get('/customers', function () {
         return view('masters.customers');
     })->name('masters.customers');
 
-    Route::get('/sites', function () {
-        return view('masters.sites');
-    })->name('masters.sites');
+    // Sites CRUD Routes
+    Route::resource('sites', App\Http\Controllers\SiteController::class);
+    Route::patch('sites/{site}/toggle-status', [App\Http\Controllers\SiteController::class, 'toggleStatus'])->name('sites.toggle-status');
 
     Route::get('/items', function () {
         return view('masters.items');

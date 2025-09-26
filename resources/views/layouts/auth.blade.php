@@ -36,8 +36,7 @@
     </style>
 </head>
 
-<body
-    class="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 font-inter">
+<body class="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 font-inter">
     <!-- Dark Mode Toggle -->
     <div class="fixed top-6 right-6 z-50">
         <label class="theme-toggle shadow-lg">
@@ -49,17 +48,16 @@
     <!-- Background Pattern -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
         <div
-            class="absolute -top-1/2 -right-1/2 w-96 h-96 bg-green-100 dark:bg-green-900/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse">
+            class="absolute -top-1/2 -right-1/2 w-96 h-96 bg-green-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse">
         </div>
-        <div class="absolute -bottom-1/2 -left-1/2 w-96 h-96 bg-green-200 dark:bg-green-800/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"
+        <div class="absolute -bottom-1/2 -left-1/2 w-96 h-96 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"
             style="animation-delay: 2s;"></div>
     </div>
 
     <!-- Main Container -->
     <div class="relative min-h-screen flex items-stretch">
         <!-- Left Side - Auth Form -->
-        <div
-            class="w-full lg:w-1/2 flex flex-col justify-center px-6 py-12 lg:px-16 xl:px-20 bg-white dark:bg-gray-900">
+        <div class="w-full lg:w-1/2 flex flex-col justify-center px-6 py-12 lg:px-16 xl:px-20 bg-white">
             <div class="mx-auto w-full max-w-md">
                 <!-- Mobile Logo -->
                 <div class="lg:hidden text-center mb-8">
@@ -69,7 +67,7 @@
                             <span class="text-white font-bold text-2xl">SL</span>
                         </div>
                     </div>
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Saradha Lanka ERP</h1>
+                    <h1 class="text-2xl font-bold text-gray-900 ">Saradha Lanka ERP</h1>
                 </div>
 
                 <!-- Auth Form Content -->
@@ -78,7 +76,7 @@
                 </div>
 
                 <!-- Footer -->
-                <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                <div class="mt-8 text-center text-sm text-gray-500 ">
                     <p>&copy; {{ date('Y') }} Saradha Lanka. All rights reserved.</p>
                 </div>
             </div>
