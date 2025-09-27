@@ -9,13 +9,10 @@
     <title>@yield('title', config('app.name', 'Laravel'))</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('assets/css/fonts.css') }}" rel="stylesheet">
 
     <!-- Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/icons-sprite.svg">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/fontawesome.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -29,12 +26,8 @@
         @if(Auth::check())
             const userSettings = @json(Auth::user()->settings ?? null);
 
-            // Apply theme setting - prioritize user settings
-            @auth
-                const userTheme = '{{ Auth::user()->settings->theme ?? "light" }}';
-            @else
-                const userTheme = localStorage.getItem('theme') || 'light';
-            @endauth
+            // Apply theme setting - read from cookie, default to 'light'
+            const userTheme = '{{ request()->cookie("user_theme", "light") }}';
             document.documentElement.setAttribute('data-theme', userTheme);
             localStorage.setItem('theme', userTheme);
 
@@ -55,8 +48,8 @@
                 window.itemsPerPage = userSettings.items_per_page || 25;
             }
         @else
-                        // Check for saved theme preference or default to 'light'
-                        const savedTheme = localStorage.getItem('theme') || 'light';
+                // For non-authenticated users, check localStorage or default to 'light'
+                const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
         @endif
 
@@ -65,7 +58,7 @@
             const toggleInput = document.getElementById('darkModeToggle');
             if (toggleInput) {
                 @auth
-                    toggleInput.checked = '{{ Auth::user()->settings->theme ?? "light" }}' === 'dark';
+                    toggleInput.checked = '{{ request()->cookie("user_theme", "light") }}' === 'dark';
                 @else
                     toggleInput.checked = localStorage.getItem('theme') === 'dark';
                 @endauth
@@ -215,7 +208,7 @@
                     darkModeToggle.checked = newTheme === 'dark';
                 }
 
-                // Save theme preference to user settings
+                // Save theme preference to cookies via backend
                 @auth
                     fetch('{{ route("profile.theme.update") }}', {
                         method: 'POST',

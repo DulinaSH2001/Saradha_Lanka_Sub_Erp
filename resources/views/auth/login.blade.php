@@ -30,8 +30,7 @@
         <div class="space-y-4">
             <a href="{{ route('google.redirect') }}"
                 class="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 transition-colors duration-200 group">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
-                    class="w-5 h-5 mr-3">
+                <img src="{{ asset('assets/icons/google.svg') }}" alt="Google" class="w-5 h-5 mr-3">
                 <span class="font-medium">Continue with Google</span>
             </a>
 
@@ -103,7 +102,7 @@
 
     @push('scripts')
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
         <script>
             $(document).ready(function () {
                 // Setup CSRF token for AJAX requests

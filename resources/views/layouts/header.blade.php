@@ -202,7 +202,7 @@
 </div>
 
 <!-- Alpine.js for dropdown functionality -->
-<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<script src="{{ asset('assets/js/alpine.min.js') }}" defer></script>
 
 <!-- Logout functionality -->
 <script>

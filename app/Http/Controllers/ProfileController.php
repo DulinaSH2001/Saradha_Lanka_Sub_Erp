@@ -118,6 +118,13 @@ class ProfileController extends Controller
             'signature' => 'nullable|string|max:1000',
         ]);
 
+        // Handle theme separately - save to cookies instead of database
+        $themeCookie = null;
+        if (isset($validated['theme'])) {
+            $themeCookie = cookie('user_theme', $validated['theme'], 60 * 24 * 365);
+            unset($validated['theme']); // Remove from database update
+        }
+
         // Convert checkboxes to boolean (they won't be in request if unchecked)
         $booleanFields = [
             'notifications_enabled',
@@ -147,8 +154,15 @@ class ProfileController extends Controller
 
         $user->settings->update($validated);
 
-        return redirect()->route('profile.settings')
+        $response = redirect()->route('profile.settings')
             ->with('success', 'Settings updated successfully!');
+
+        // Add theme cookie if it was set
+        if ($themeCookie) {
+            $response = $response->cookie($themeCookie);
+        }
+
+        return $response;
     }
 
     /**
@@ -229,6 +243,14 @@ class ProfileController extends Controller
     }
 
     /**
+     * Get user theme preference from cookie.
+     */
+    public function getUserTheme(Request $request)
+    {
+        return $request->cookie('user_theme', 'light'); // Default to 'light'
+    }
+
+    /**
      * Update user theme preference.
      */
     public function updateTheme(Request $request)
@@ -237,21 +259,13 @@ class ProfileController extends Controller
             'theme' => ['required', 'in:light,dark'],
         ]);
 
-        $user = Auth::user();
-
-        // Create settings if they don't exist
-        if (!$user->settings) {
-            $user->settings()->create(UserSettings::getDefaults());
-        }
-
-        $user->settings->update([
-            'theme' => $validated['theme']
-        ]);
+        // Save theme preference in cookie (expires in 1 year)
+        $cookie = cookie('user_theme', $validated['theme'], 60 * 24 * 365);
 
         return response()->json([
             'success' => true,
             'message' => 'Theme preference saved'
-        ]);
+        ])->cookie($cookie);
     }
 
     /**

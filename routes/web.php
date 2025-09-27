@@ -39,9 +39,9 @@ Route::prefix('masters')->middleware('auth')->group(function () {
     Route::resource('sites', App\Http\Controllers\SiteController::class);
     Route::patch('sites/{site}/toggle-status', [App\Http\Controllers\SiteController::class, 'toggleStatus'])->name('sites.toggle-status');
 
-    Route::get('/items', function () {
-        return view('masters.items');
-    })->name('masters.items');
+    // Items CRUD Routes
+    Route::resource('items', App\Http\Controllers\ItemController::class);
+    Route::patch('items/{item}/toggle-status', [App\Http\Controllers\ItemController::class, 'toggleStatus'])->name('items.toggle-status');
 
     Route::get('/suppliers', function () {
         return view('masters.suppliers');

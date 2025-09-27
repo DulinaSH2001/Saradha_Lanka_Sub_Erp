@@ -200,12 +200,17 @@
                                                 {{ $site->manager_name ?? 'Not Assigned' }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <span
-                                                    class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {{
-                            $site->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                                                                                                                                                                                                                                                                                                        }}">
-                                                    {{ $site->status_text }}
-                                                </span>
+                                                @if($site->is_active)
+                                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                        <i class="fas fa-check-circle mr-1"></i>
+                                                        Active
+                                                    </span>
+                                                @else
+                                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                        <i class="fas fa-times-circle mr-1"></i>
+                                                        Inactive
+                                                    </span>
+                                                @endif
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="flex items-center gap-1">
@@ -215,9 +220,7 @@
                                                         <i class="fas fa-eye"></i>
                                                     </a>
                                                     <a href="{{ route('sites.edit', $site) }}"
-                                                        class="inline-flex items-center px-2 py-1
-                                                                                                                                                                          bg-blue-100 text-blue-700 hover:bg-blue-200
-                                                                                                                                                                          text-xs font-medium rounded transition-colors duration-200"
+                                                        class="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200text-xs font-medium rounded transition-colors duration-200"
                                                         title="Edit Site">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
@@ -260,16 +263,79 @@
                 </table>
             </div>
 
+            <!-- Pagination -->
             @if($sites->hasPages())
-                <!-- Pagination -->
-                <div class="bg-white px-6 py-3 border-t border-gray-200">
-                    <div class="flex items-center justify-between">
-                        <div class="text-sm text-gray-700">
-                            Showing {{ $sites->firstItem() ?? 0 }} to {{ $sites->lastItem() ?? 0 }} of {{ $sites->total() }}
-                            results
+                <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                    <div class="flex-1 flex justify-between sm:hidden">
+                        @if($sites->onFirstPage())
+                            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-500 bg-white cursor-not-allowed">
+                                Previous
+                            </span>
+                        @else
+                            <a href="{{ $sites->previousPageUrl() }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200">
+                                Previous
+                            </a>
+                        @endif
+
+                        @if($sites->hasMorePages())
+                            <a href="{{ $sites->nextPageUrl() }}" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200">
+                                Next
+                            </a>
+                        @else
+                            <span class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-500 bg-white cursor-not-allowed">
+                                Next
+                            </span>
+                        @endif
+                    </div>
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm text-gray-700">
+                                Showing
+                                <span class="font-medium text-gray-900">{{ $sites->firstItem() }}</span>
+                                to
+                                <span class="font-medium text-gray-900">{{ $sites->lastItem() }}</span>
+                                of
+                                <span class="font-medium text-gray-900">{{ $sites->total() }}</span>
+                                results
+                            </p>
                         </div>
                         <div>
-                            {{ $sites->appends(request()->query())->links() }}
+                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                {{-- Previous Page Link --}}
+                                @if ($sites->onFirstPage())
+                                    <span class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 cursor-not-allowed">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                @else
+                                    <a href="{{ $sites->previousPageUrl() }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors duration-200">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                @endif
+
+                                {{-- Pagination Elements --}}
+                                @foreach ($sites->getUrlRange(1, $sites->lastPage()) as $page => $url)
+                                    @if ($page == $sites->currentPage())
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-blue-500 bg-blue-50 text-sm font-medium text-blue-600">
+                                            {{ $page }}
+                                        </span>
+                                    @else
+                                        <a href="{{ $url }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors duration-200">
+                                            {{ $page }}
+                                        </a>
+                                    @endif
+                                @endforeach
+
+                                {{-- Next Page Link --}}
+                                @if ($sites->hasMorePages())
+                                    <a href="{{ $sites->nextPageUrl() }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors duration-200">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                @else
+                                    <span class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 cursor-not-allowed">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                @endif
+                            </nav>
                         </div>
                     </div>
                 </div>
