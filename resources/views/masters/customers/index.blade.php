@@ -191,20 +191,37 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <div class="flex space-x-2">
-                                        <a href="{{ route('customers.edit', $customer) }}"
-                                            class="text-blue-600 hover:text-blue-900" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                                    <div class="flex items-center space-x-2">
                                         <a href="{{ route('customers.show', $customer) }}"
-                                            class="text-green-600 hover:text-green-900" title="View">
+                                            class="inline-flex items-center px-2 py-1 bg-green-100 hover:bg-green-200 text-green-700 text-xs font-medium rounded transition-colors duration-200"
+                                            title="View Customer Details">
                                             <i class="fas fa-eye"></i>
                                         </a>
+
+                                        <a href="{{ route('customers.edit', $customer) }}"
+                                            class="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200 text-xs font-medium rounded transition-colors duration-200"
+                                            title="Edit Customer">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        <form action="{{ route('customers.toggle-status', $customer) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="inline-flex items-center px-2 py-1 bg-yellow-100 text-yellow-600 hover:text-yellow-900 text-xs font-medium rounded transition-colors duration-200"
+                                                title="{{ $customer->status === 'active' ? 'Deactivate' : 'Activate' }}">
+                                                <i class="fas fa-toggle-{{ $customer->status === 'active' ? 'on' : 'off' }}"></i>
+                                            </button>
+                                        </form>
+
                                         <form action="{{ route('customers.destroy', $customer) }}" method="POST" class="inline"
-                                            onsubmit="return confirm('Are you sure you want to delete this customer?')">
+                                              onsubmit="return confirm('Are you sure you want to delete this customer?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900" title="Delete">
+                                            <button type="submit"
+                                                onclick="return confirm('Are you sure you want to delete this Customer? This action cannot be undone.')"
+                                                class="inline-flex items-center px-2 py-1 bg-red-100 hover:bg-red-200 text-red-700 text-xs font-medium rounded transition-colors duration-200"
+                                                title="Delete Customer">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>

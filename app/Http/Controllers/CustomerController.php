@@ -142,4 +142,18 @@ class CustomerController extends Controller
             ->route('customers.index')
             ->with('success', 'Customer deleted successfully!');
     }
+
+    /**
+     * Toggle customer status
+     */
+    public function toggleStatus(Customer $customer): RedirectResponse
+    {
+        $newStatus = $customer->status === 'active' ? 'inactive' : 'active';
+        $customer->update(['status' => $newStatus]);
+
+        $statusText = $newStatus === 'active' ? 'activated' : 'deactivated';
+
+        return redirect()->back()
+            ->with('success', "Customer {$statusText} successfully.");
+    }
 }

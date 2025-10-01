@@ -42,7 +42,7 @@ class SiteController extends Controller
             }
         }
 
-        $sites = $query->orderBy('name')->paginate(15);
+        $sites = $query->orderBy('name')->paginate(10)->appends($request->query());
 
         // Statistics for the dashboard
         $stats = [

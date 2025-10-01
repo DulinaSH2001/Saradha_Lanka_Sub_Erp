@@ -34,6 +34,7 @@ Route::get('/dashboard', function () {
 Route::prefix('masters')->middleware('auth')->group(function () {
     // Customer CRUD Routes
     Route::resource('customers', CustomerController::class);
+    Route::patch('customers/{customer}/toggle-status', [CustomerController::class, 'toggleStatus'])->name('customers.toggle-status');
 
     // Sites CRUD Routes
     Route::resource('sites', App\Http\Controllers\SiteController::class);
@@ -43,9 +44,9 @@ Route::prefix('masters')->middleware('auth')->group(function () {
     Route::resource('items', App\Http\Controllers\ItemController::class);
     Route::patch('items/{item}/toggle-status', [App\Http\Controllers\ItemController::class, 'toggleStatus'])->name('items.toggle-status');
 
-    Route::get('/suppliers', function () {
-        return view('masters.suppliers');
-    })->name('masters.suppliers');
+    // Suppliers CRUD Routes
+    Route::resource('suppliers', App\Http\Controllers\SupplierController::class);
+    Route::patch('suppliers/{supplier}/toggle-status', [App\Http\Controllers\SupplierController::class, 'toggleStatus'])->name('suppliers.toggle-status');
 });
 
 // Profile & Settings Routes

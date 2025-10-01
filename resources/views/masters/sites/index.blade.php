@@ -212,31 +212,45 @@
                                                     </span>
                                                 @endif
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center gap-1">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <div class="flex items-center space-x-2">
                                                     <a href="{{ route('sites.show', $site) }}"
-                                                        class="inline-flex items-center px-2 py-1 bg-green-100 hover:bg-green-200  text-green-700 text-xs font-medium rounded transition-colors duration-200"
+                                                        class="inline-flex items-center px-2 py-1 bg-green-100 hover:bg-green-200 text-green-700 text-xs font-medium rounded transition-colors duration-200"
                                                         title="View Site Details">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
+
                                                     <a href="{{ route('sites.edit', $site) }}"
-                                                        class="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200text-xs font-medium rounded transition-colors duration-200"
+                                                        class="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200 text-xs font-medium rounded transition-colors duration-200"
                                                         title="Edit Site">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
+
                                                     @if($site->latitude && $site->longitude)
                                                         <button onclick="showOnMap({{ $site->latitude }}, {{ $site->longitude }})"
-                                                            class="inline-flex items-center px-2 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700  text-xs font-medium rounded transition-colors duration-200"
+                                                            class="inline-flex items-center px-2 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 text-xs font-medium rounded transition-colors duration-200"
                                                             title="View on Map">
                                                             <i class="fas fa-map-marker-alt"></i>
                                                         </button>
                                                     @endif
-                                                    <form method="POST" action="{{ route('sites.destroy', $site) }}" class="inline">
+
+                                                    <form action="{{ route('sites.toggle-status', $site) }}" method="POST" class="inline">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit"
+                                                            class="inline-flex items-center px-2 py-1 bg-yellow-100 text-yellow-600 hover:text-yellow-900 text-xs font-medium rounded transition-colors duration-200"
+                                                            title="{{ $site->is_active ? 'Deactivate' : 'Activate' }}">
+                                                            <i class="fas fa-toggle-{{ $site->is_active ? 'on' : 'off' }}"></i>
+                                                        </button>
+                                                    </form>
+
+                                                    <form action="{{ route('sites.destroy', $site) }}" method="POST" class="inline"
+                                                          onsubmit="return confirm('Are you sure you want to delete this site?')">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"
-                                                            onclick="return confirm('Are you sure you want to delete this site? This action cannot be undone.')"
-                                                            class="inline-flex items-center px-2 py-1 bg-red-100 hover:bg-red-200 text-red-700  text-xs font-medium rounded transition-colors duration-200"
+                                                            onclick="return confirm('Are you sure you want to delete this Site? This action cannot be undone.')"
+                                                            class="inline-flex items-center px-2 py-1 bg-red-100 hover:bg-red-200 text-red-700 text-xs font-medium rounded transition-colors duration-200"
                                                             title="Delete Site">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
@@ -313,17 +327,19 @@
                                 @endif
 
                                 {{-- Pagination Elements --}}
-                                @foreach ($sites->getUrlRange(1, $sites->lastPage()) as $page => $url)
-                                    @if ($page == $sites->currentPage())
-                                        <span class="relative inline-flex items-center px-4 py-2 border border-blue-500 bg-blue-50 text-sm font-medium text-blue-600">
-                                            {{ $page }}
-                                        </span>
-                                    @else
-                                        <a href="{{ $url }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors duration-200">
-                                            {{ $page }}
-                                        </a>
-                                    @endif
-                                @endforeach
+                                @if ($sites->lastPage() > 1)
+                                    @for ($page = 1; $page <= $sites->lastPage(); $page++)
+                                        @if ($page == $sites->currentPage())
+                                            <span class="relative inline-flex items-center px-4 py-2 border border-blue-500 bg-blue-50 text-sm font-medium text-blue-600">
+                                                {{ $page }}
+                                            </span>
+                                        @else
+                                            <a href="{{ $sites->url($page) }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors duration-200">
+                                                {{ $page }}
+                                            </a>
+                                        @endif
+                                    @endfor
+                                @endif
 
                                 {{-- Next Page Link --}}
                                 @if ($sites->hasMorePages())

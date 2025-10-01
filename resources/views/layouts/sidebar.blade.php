@@ -15,7 +15,7 @@
 
     <!-- Navigation -->
     <nav class="flex-1 px-4 py-6 overflow-y-auto" x-data="{
-        openSection: '{{ request()->is('masters*') ? 'masters' : (request()->is('sales*') ? 'sales' : (request()->is('inventory*') ? 'inventory' : (request()->is('purchasing*') ? 'purchasing' : (request()->is('accounting*') ? 'accounting' : (request()->is('hr*') ? 'hr' : ''))))) }}',
+        openSection: '{{ request()->is('masters*') ? 'masters' : (request()->is('supplier-management*') ? 'supplier-management' : (request()->is('sales*') ? 'sales' : (request()->is('inventory*') ? 'inventory' : (request()->is('purchasing*') ? 'purchasing' : (request()->is('accounting*') ? 'accounting' : (request()->is('hr*') ? 'hr' : '')))))) }}',
 
         init() {
             // Load saved state from localStorage if no active route
@@ -95,6 +95,63 @@
                             class="fas fa-truck w-4 h-4 mr-2 {{ request()->is('masters/suppliers*') ? 'text-green-600' : 'text-gray-400' }}"></i>
                         Suppliers
                     </a>
+                </div>
+            </div>
+
+            <!-- Supplier Management Section -->
+            <div>
+                <button @click="toggleSection('supplier-management')"
+                    class="group flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 {{ request()->is('supplier-management*') ? 'bg-green-100 text-green-700 border-r-4 border-green-500' : 'text-gray-700 hover:bg-green-50 hover:text-green-600' }}">
+                    <div class="flex items-center">
+                        <i
+                            class="fas fa-handshake w-5 h-5 mr-3 transition-colors duration-200 {{ request()->is('supplier-management*') ? 'text-green-600' : 'text-gray-400 group-hover:text-green-500' }}"></i>
+                        Purchase
+                    </div>
+                    <svg class="w-4 h-4 transition-transform duration-200"
+                        :class="{ 'rotate-90': isOpen('supplier-management') }" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+                <div x-show="isOpen('supplier-management')" x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 transform -translate-y-2"
+                    x-transition:enter-end="opacity-100 transform translate-y-0"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 transform translate-y-0"
+                    x-transition:leave-end="opacity-0 transform -translate-y-2" class="mt-2 ml-8 space-y-1">
+
+                    <!-- GRN Sub-section -->
+                    <a href="/supplier-management/grn"
+                        class="flex items-center px-4 py-2 text-sm rounded-lg transition-all duration-200 {{ request()->is('supplier-management/grn*') ? 'bg-green-100 text-green-700 border-r-2 border-green-500 shadow-sm' : 'text-gray-600 hover:bg-green-50 hover:text-green-600 hover:translate-x-1' }}">
+                        <i
+                            class="fas fa-clipboard-check w-4 h-4 mr-2 {{ request()->is('supplier-management/grn*') ? 'text-green-600' : 'text-gray-400' }}"></i>
+                        GRN
+                    </a>
+
+                    <!-- Purchase Orders -->
+                    <a href="/supplier-management/purchase-orders"
+                        class="flex items-center px-4 py-2 text-sm rounded-lg transition-all duration-200 {{ request()->is('supplier-management/purchase-orders*') ? 'bg-green-100 text-green-700 border-r-2 border-green-500 shadow-sm' : 'text-gray-600 hover:bg-green-50 hover:text-green-600 hover:translate-x-1' }}">
+                        <i
+                            class="fas fa-file-alt w-4 h-4 mr-2 {{ request()->is('supplier-management/purchase-orders*') ? 'text-green-600' : 'text-gray-400' }}"></i>
+                        Purchase Orders
+                    </a>
+
+                    <!-- Purchase Requests -->
+                    <a href="/supplier-management/purchase-requests"
+                        class="flex items-center px-4 py-2 text-sm rounded-lg transition-all duration-200 {{ request()->is('supplier-management/purchase-requests*') ? 'bg-green-100 text-green-700 border-r-2 border-green-500 shadow-sm' : 'text-gray-600 hover:bg-green-50 hover:text-green-600 hover:translate-x-1' }}">
+                        <i
+                            class="fas fa-paper-plane w-4 h-4 mr-2 {{ request()->is('supplier-management/purchase-requests*') ? 'text-green-600' : 'text-gray-400' }}"></i>
+                        Purchase Requests
+                    </a>
+                    <a href="/supplier-management/payments"
+                        class="flex items-center px-4 py-2 text-sm rounded-lg transition-all duration-200 {{ request()->is('supplier-management/payments*') ? 'bg-green-100 text-green-700 border-r-2 border-green-500 shadow-sm' : 'text-gray-600 hover:bg-green-50 hover:text-green-600 hover:translate-x-1' }}">
+                        <i
+                            class="fas fa-credit-card w-4 h-4 mr-2 {{ request()->is('supplier-management/payments*') ? 'text-green-600' : 'text-gray-400' }}"></i>
+                        Pay Bill
+                    </a>
+
+
+
                 </div>
             </div>
 

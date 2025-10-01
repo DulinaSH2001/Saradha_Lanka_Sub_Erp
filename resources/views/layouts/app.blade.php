@@ -48,8 +48,8 @@
                 window.itemsPerPage = userSettings.items_per_page || 25;
             }
         @else
-                // For non-authenticated users, check localStorage or default to 'light'
-                const savedTheme = localStorage.getItem('theme') || 'light';
+                        // For non-authenticated users, check localStorage or default to 'light'
+                        const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
         @endif
 
@@ -265,7 +265,7 @@
 </body>
 
 </html>
-});
+
 </script>
 
 <!-- Additional Scripts -->
