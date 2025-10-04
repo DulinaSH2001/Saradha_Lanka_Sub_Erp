@@ -48,8 +48,8 @@
                 window.itemsPerPage = userSettings.items_per_page || 25;
             }
         @else
-                        // For non-authenticated users, check localStorage or default to 'light'
-                        const savedTheme = localStorage.getItem('theme') || 'light';
+                                    // For non-authenticated users, check localStorage or default to 'light'
+                                    const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
         @endif
 
@@ -87,7 +87,7 @@
 
             <!-- Main Content Area -->
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
-                <div class="container mx-auto px-6 py-8">
+                <div class="container mx-auto px-2 py-2">
                     <!-- Page Header -->
                     @if (isset($pageTitle) || isset($breadcrumbs))
                         <div class="mb-8">

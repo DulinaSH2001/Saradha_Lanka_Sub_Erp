@@ -47,6 +47,19 @@ Route::prefix('masters')->middleware('auth')->group(function () {
     // Suppliers CRUD Routes
     Route::resource('suppliers', App\Http\Controllers\SupplierController::class);
     Route::patch('suppliers/{supplier}/toggle-status', [App\Http\Controllers\SupplierController::class, 'toggleStatus'])->name('suppliers.toggle-status');
+
+
+
+    // Accounts CRUD Routes
+    Route::resource('accounts', App\Http\Controllers\AccountController::class);
+    Route::patch('accounts/{account}/toggle-status', [App\Http\Controllers\AccountController::class, 'toggleStatus'])->name('accounts.toggle-status');
+});
+
+
+Route::prefix('purchasing')->middleware('auth')->group(function () {
+
+    // GRNs CRUD Routes
+    Route::resource('grns', App\Http\Controllers\GrnController::class);
 });
 
 // Profile & Settings Routes
